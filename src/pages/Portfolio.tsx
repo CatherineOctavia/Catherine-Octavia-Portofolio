@@ -101,7 +101,7 @@ export default function Portfolio() {
             >
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
-                  src={project.image_url}
+                  src="../assets/Foto.jpeg"
                   alt={project.title}
                   className="w-full h-full object-cover pointer-events-none select-none"
                   referrerPolicy="no-referrer"
