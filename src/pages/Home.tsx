@@ -3,23 +3,23 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Languages, GraduationCap, Utensils, PenTool } from 'lucide-react';
 import profileImage from '../assets/Profil.jpeg';
-
-interface Experience {
-  id: number;
-  title: string;
-  organization: string;
-  period: string;
-  description: string;
-  type: string;
-}
+import { loadExperience, type Experience } from '../lib/frontendSqlite';
 
 export default function Home() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
 
   useEffect(() => {
-    fetch('/api/experience')
-      .then(res => res.json())
-      .then(data => setExperiences(data));
+    let isMounted = true;
+
+    loadExperience().then((data) => {
+      if (isMounted) {
+        setExperiences(data);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const getIcon = (type: string) => {

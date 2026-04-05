@@ -2,29 +2,25 @@ import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Globe, MessageSquare, PenTool, Book, Utensils, Languages } from 'lucide-react';
 import projectImage from '../assets/Foto.jpeg';
-
-interface Skill {
-  id: number;
-  name: string;
-  percentage: number;
-  icon: string;
-}
-
-interface Project {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image_url: string;
-}
+import { loadProjects, loadSkills, type Project, type Skill } from '../lib/frontendSqlite';
 
 export default function Portfolio() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    fetch('/api/skills').then(res => res.json()).then(data => setSkills(data));
-    fetch('/api/projects').then(res => res.json()).then(data => setProjects(data));
+    let isMounted = true;
+
+    Promise.all([loadSkills(), loadProjects()]).then(([skillsData, projectsData]) => {
+      if (isMounted) {
+        setSkills(skillsData);
+        setProjects(projectsData);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const getSkillIcon = (name: string) => {
