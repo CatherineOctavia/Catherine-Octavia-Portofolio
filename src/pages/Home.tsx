@@ -74,7 +74,7 @@ export default function Home() {
           >
             <div className="aspect-[4/5] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img 
-                src="/Profil.jpeg" 
+                src="https://picsum.photos/seed/portrait/800/1000" 
                 alt="Catherine Octavia" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
