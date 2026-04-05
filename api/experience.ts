@@ -1,12 +1,12 @@
 import { fallbackExperience, readRows } from './_data';
 
-export default function handler(req: any, res: any) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const experience = readRows(
+  const experience = await readRows(
     'SELECT id, title, organization, period, description, type FROM experience ORDER BY id',
     fallbackExperience,
   );

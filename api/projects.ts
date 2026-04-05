@@ -1,8 +1,8 @@
 import { fallbackProjects, readRows } from './_data';
 
-export default function handler(req: any, res: any) {
+export default async function handler(req: any, res: any) {
   if (req.method === 'GET') {
-    const projects = readRows(
+    const projects = await readRows(
       'SELECT id, title, category, description, image_url, created_at FROM projects ORDER BY id',
       fallbackProjects,
     );
