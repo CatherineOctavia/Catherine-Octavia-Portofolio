@@ -1,3 +1,8 @@
+import fs from 'fs/promises';
+import path from 'path';
+import { createRequire } from 'module';
+import initSqlJs, { type Database, type SqlJsStatic } from 'sql.js';
+
 export const fallbackExperience = [
   {
     id: 1,
@@ -58,6 +63,57 @@ export const fallbackProjects = [
   },
 ];
 
-export async function readRows<T>(_query: string, fallbackRows: T[]): Promise<T[]> {
-  return fallbackRows;
+const require = createRequire(import.meta.url);
+let sqlPromise: Promise<SqlJsStatic> | null = null;
+
+async function getSqlEngine(): Promise<SqlJsStatic> {
+  if (!sqlPromise) {
+    const wasmPath = require.resolve('sql.js/dist/sql-wasm.wasm');
+    sqlPromise = initSqlJs({
+      locateFile: () => wasmPath,
+    });
+  }
+  return sqlPromise;
+}
+
+function mapQueryResult<T>(db: Database, query: string): T[] {
+  const results = db.exec(query);
+  if (results.length === 0) {
+    return [];
+  }
+
+  const first = results[0];
+  return first.values.map((valueRow) => {
+    const row: Record<string, unknown> = {};
+    first.columns.forEach((columnName, index) => {
+      row[columnName] = valueRow[index];
+    });
+    return row as T;
+  });
+}
+
+async function readSqliteRows<T>(query: string): Promise<T[] | null> {
+  const dbPath = path.join(process.cwd(), 'portfolio.db');
+
+  try {
+    const dbBuffer = await fs.readFile(dbPath);
+    const SQL = await getSqlEngine();
+    const db = new SQL.Database(new Uint8Array(dbBuffer));
+
+    try {
+      return mapQueryResult<T>(db, query);
+    } finally {
+      db.close();
+    }
+  } catch {
+    return null;
+  }
+}
+
+export async function readRows<T>(query: string, fallbackRows: T[]): Promise<T[]> {
+  const sqliteRows = await readSqliteRows<T>(query);
+  if (sqliteRows === null) {
+    return fallbackRows;
+  }
+  return sqliteRows;
 }
