@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-
 export const fallbackExperience = [
   {
     id: 1,
@@ -61,46 +58,6 @@ export const fallbackProjects = [
   },
 ];
 
-type SqliteDb = {
-  prepare: (query: string) => { all: () => unknown[] };
-  close: () => void;
-};
-
-async function readOnlyDb(): Promise<SqliteDb | null> {
-  const dbPath = path.join(process.cwd(), 'portfolio.db');
-  if (!fs.existsSync(dbPath)) {
-    return null;
-  }
-
-  try {
-    const sqliteModule = await import('better-sqlite3');
-    const Database = sqliteModule.default as unknown as new (
-      filename: string,
-      options: { readonly: boolean; fileMustExist: boolean },
-    ) => SqliteDb;
-
-    return new Database(dbPath, {
-      readonly: true,
-      fileMustExist: true,
-    });
-  } catch {
-    return null;
-  }
-}
-
-export async function readRows<T>(query: string, fallbackRows: T[]): Promise<T[]> {
-  let db: SqliteDb | null = null;
-  try {
-    db = await readOnlyDb();
-    if (!db) {
-      return fallbackRows;
-    }
-    return db.prepare(query).all() as T[];
-  } catch {
-    return fallbackRows;
-  } finally {
-    if (db) {
-      db.close();
-    }
-  }
+export async function readRows<T>(_query: string, fallbackRows: T[]): Promise<T[]> {
+  return fallbackRows;
 }
