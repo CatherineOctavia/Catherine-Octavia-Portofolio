@@ -55,7 +55,7 @@ export default function Admin() {
 
   return (
     <div className="pt-32 pb-24 px-6 min-h-screen">
-      <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 p-10 rounded-[2rem]">
+      <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 p-10 rounded-4xl">
         <h2 className="text-3xl font-serif text-white mb-8 flex items-center gap-3">
           <Plus className="text-yellow-400" /> Add New Project
         </h2>

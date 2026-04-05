@@ -73,7 +73,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="aspect-4/5 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img 
                 src={profileImage}
                 alt="Catherine Octavia" 

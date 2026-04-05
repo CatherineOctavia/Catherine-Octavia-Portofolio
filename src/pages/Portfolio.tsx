@@ -98,9 +98,9 @@ export default function Portfolio() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden flex flex-col"
+              className="bg-white/5 border border-white/10 rounded-4xl overflow-hidden flex flex-col"
             >
-              <div className="aspect-[4/3] overflow-hidden relative">
+              <div className="aspect-4/3 overflow-hidden relative">
                 <img
                   src={project.image_url || projectImage}
                   alt={project.title}
@@ -130,7 +130,7 @@ export default function Portfolio() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-br from-yellow-400/20 to-transparent border border-yellow-400/30 p-12 rounded-[3rem] text-center relative overflow-hidden"
+          className="bg-linear-to-br from-yellow-400/20 to-transparent border border-yellow-400/30 p-12 rounded-[3rem] text-center relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-yellow-400" />
           <h2 className="text-4xl font-serif text-white mb-6">Let's Connect</h2>
