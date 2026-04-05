@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Languages, GraduationCap, Utensils, PenTool } from 'lucide-react';
+import profileImage from '../assets/Profil.jpeg';
 
 interface Experience {
   id: number;
@@ -74,7 +75,7 @@ export default function Home() {
           >
             <div className="aspect-[4/5] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img 
-                src="../assets/Profil.jpeg" 
+                src={profileImage}
                 alt="Catherine Octavia" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

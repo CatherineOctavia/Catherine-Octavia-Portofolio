@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Globe, MessageSquare, PenTool, Book, Utensils, Languages } from 'lucide-react';
+import projectImage from '../assets/Foto.jpeg';
 
 interface Skill {
   id: number;
@@ -101,7 +102,7 @@ export default function Portfolio() {
             >
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
-                  src="../assets/Foto.jpeg"
+                  src={project.image_url || projectImage}
                   alt={project.title}
                   className="w-full h-full object-cover pointer-events-none select-none"
                   referrerPolicy="no-referrer"
